@@ -1,295 +1,198 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Support Triage</title>
-  <script src="https://cdn.lemma.work/sdk/latest/lemma-sdk.umd.js"></script>
-  <style>
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-      background: #f5f5f0;
-      color: #1a1a1a;
-      min-height: 100vh;
-    }
-    header {
-      background: #1a1a1a;
-      color: white;
-      padding: 16px 32px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    header h1 { font-size: 20px; font-weight: 700; }
-    header span { font-size: 13px; color: #aaa; }
-    .container { max-width: 900px; margin: 32px auto; padding: 0 24px; }
-    .card {
-      background: white;
-      border-radius: 12px;
-      border: 1px solid #e5e5e5;
-      padding: 24px;
-      margin-bottom: 24px;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.06);
-    }
-    .card h2 { font-size: 16px; font-weight: 600; margin-bottom: 16px; color: #333; }
-    .form-row { display: flex; flex-direction: column; gap: 12px; }
-    input, textarea {
-      width: 100%;
-      padding: 10px 14px;
-      border: 1px solid #ddd;
-      border-radius: 8px;
-      font-size: 14px;
-      font-family: inherit;
-      background: #fafafa;
-    }
-    textarea { resize: vertical; min-height: 90px; }
-    input:focus, textarea:focus { outline: none; border-color: #1a1a1a; background: white; }
-    .btn {
-      padding: 10px 20px;
-      border-radius: 8px;
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      border: none;
-      transition: opacity 0.15s;
-    }
-    .btn:hover { opacity: 0.85; }
-    .btn-primary { background: #1a1a1a; color: white; }
-    .btn-success { background: #16a34a; color: white; }
-    .btn-danger { background: #dc2626; color: white; }
-    .btn-run { background: #7c3aed; color: white; }
-    .btn:disabled { opacity: 0.4; cursor: not-allowed; }
-    .ticket {
-      border: 1px solid #e5e5e5;
-      border-radius: 10px;
-      padding: 16px;
-      margin-bottom: 12px;
-      background: #fafafa;
-    }
-    .ticket-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px; }
-    .ticket-subject { font-weight: 600; font-size: 15px; }
-    .badges { display: flex; gap: 6px; flex-wrap: wrap; }
-    .badge {
-      padding: 3px 10px;
-      border-radius: 20px;
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-    }
-    .badge-billing { background: #dbeafe; color: #1e40af; }
-    .badge-technical { background: #fef3c7; color: #92400e; }
-    .badge-general { background: #f3f4f6; color: #374151; }
-    .badge-high { background: #fee2e2; color: #991b1b; }
-    .badge-medium { background: #fef3c7; color: #92400e; }
-    .badge-low { background: #dcfce7; color: #166534; }
-    .badge-new { background: #e0e7ff; color: #3730a3; }
-    .badge-approved { background: #dcfce7; color: #166534; }
-    .ticket-body { font-size: 13px; color: #555; margin-bottom: 10px; line-height: 1.5; }
-    .draft-reply {
-      background: #f0fdf4;
-      border: 1px solid #bbf7d0;
-      border-radius: 8px;
-      padding: 12px;
-      font-size: 13px;
-      color: #166534;
-      margin-bottom: 12px;
-      line-height: 1.5;
-    }
-    .draft-label { font-size: 11px; font-weight: 700; color: #16a34a; margin-bottom: 6px; text-transform: uppercase; }
-    .ticket-actions { display: flex; gap: 8px; }
-    .empty { text-align: center; color: #999; padding: 40px; font-size: 14px; }
-    .status-bar { font-size: 13px; color: #666; margin-bottom: 16px; }
-    .loading { text-align: center; color: #999; padding: 20px; }
-    .workflow-result {
-      background: #f0f9ff;
-      border: 1px solid #bae6fd;
-      border-radius: 8px;
-      padding: 12px;
-      font-size: 13px;
-      color: #0369a1;
-      margin-top: 12px;
-    }
-    .section-title {
-      font-size: 13px;
-      font-weight: 700;
-      color: #888;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 12px;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Support Tickets</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: system-ui, sans-serif; background: #f5f5f5; color: #1a1a1a; min-height: 100vh; padding: 2rem 1rem; }
+  .container { max-width: 680px; margin: 0 auto; }
+  h1 { font-size: 22px; font-weight: 600; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 8px; }
+  h2 { font-size: 16px; font-weight: 600; margin-bottom: 1rem; }
+  .card { background: #fff; border: 1px solid #e0e0e0; border-radius: 12px; padding: 1.25rem; margin-bottom: 1.25rem; }
+  label { font-size: 13px; color: #555; display: block; margin-bottom: 4px; }
+  input[type="text"], textarea {
+    width: 100%; padding: 8px 12px; border: 1px solid #ddd; border-radius: 8px;
+    font-size: 14px; font-family: inherit; margin-bottom: 12px; background: #fff; color: #1a1a1a;
+    outline: none; transition: border-color 0.15s;
+  }
+  input[type="text"]:focus, textarea:focus { border-color: #3b82f6; }
+  textarea { resize: vertical; min-height: 80px; line-height: 1.5; }
+  .btn-row { display: flex; gap: 8px; flex-wrap: wrap; }
+  button {
+    display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px;
+    border-radius: 8px; font-size: 14px; font-weight: 500; cursor: pointer;
+    border: 1px solid #ccc; background: #f9f9f9; color: #1a1a1a;
+    transition: background 0.15s; font-family: inherit;
+  }
+  button:hover { background: #efefef; }
+  button.primary { background: #3b82f6; color: #fff; border-color: #3b82f6; }
+  button.primary:hover { background: #2563eb; border-color: #2563eb; }
+  .ticket { background: #fafafa; border: 1px solid #e5e5e5; border-radius: 8px; padding: 12px 14px; margin-bottom: 8px; }
+  .ticket-header { display: flex; justify-content: space-between; align-items: flex-start; gap: 8px; margin-bottom: 4px; }
+  .ticket-subject { font-size: 14px; font-weight: 600; }
+  .badge { font-size: 11px; font-weight: 600; padding: 2px 10px; border-radius: 99px; white-space: nowrap; }
+  .badge-open    { background: #dbeafe; color: #1d4ed8; }
+  .badge-urgent  { background: #fee2e2; color: #b91c1c; }
+  .badge-normal  { background: #dcfce7; color: #15803d; }
+  .badge-low     { background: #fef9c3; color: #92400e; }
+  .ticket-meta { font-size: 12px; color: #999; margin-bottom: 4px; }
+  .ticket-desc { font-size: 13px; color: #555; line-height: 1.5; }
+  .triage-box { margin-top: 8px; padding: 8px 10px; background: #eff6ff; border-radius: 8px; font-size: 12px; color: #1d4ed8; border: 1px solid #bfdbfe; line-height: 1.5; }
+  .triage-box.loading { color: #6b7280; background: #f3f4f6; border-color: #e5e7eb; }
+  .empty { text-align: center; padding: 2rem; color: #aaa; font-size: 14px; }
+  .tickets-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+  .tickets-header h2 { margin: 0; }
+  #count { font-size: 13px; color: #999; }
+  #toast {
+    display: none; position: fixed; top: 16px; right: 16px;
+    background: #3b82f6; color: #fff; padding: 10px 18px;
+    border-radius: 8px; font-size: 13px; font-weight: 500; z-index: 999;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  }
+</style>
 </head>
 <body>
-
-<header>
-  <h1>🎫 Support Triage</h1>
-  <span>AI-powered ticket classifier</span>
-</header>
-
 <div class="container">
+  <h1>🎫 Support Tickets</h1>
 
-  <!-- Submit New Ticket -->
+  <!-- Submit Form -->
   <div class="card">
-    <h2>Submit New Support Ticket</h2>
-    <div class="form-row">
-      <input type="text" id="subject" placeholder="Subject (e.g. Cannot login to my account)" />
-      <textarea id="body" placeholder="Describe the issue in detail..."></textarea>
-      <div style="display:flex;gap:10px;">
-        <button class="btn btn-primary" onclick="submitTicket()">Submit Ticket</button>
-        <button class="btn btn-run" onclick="runTriage()">⚡ Run AI Triage Workflow</button>
-      </div>
-      <div id="submit-result"></div>
+    <h2>Submit a ticket</h2>
+    <label for="subj">Subject</label>
+    <input type="text" id="subj" placeholder="Briefly describe the issue">
+    <label for="desc">Description</label>
+    <textarea id="desc" placeholder="Provide more details about what happened..."></textarea>
+    <div class="btn-row">
+      <button onclick="submitTicket(false)">📨 Submit</button>
+      <button class="primary" onclick="submitTicket(true)">⚡ Submit + AI triage</button>
     </div>
   </div>
 
-  <!-- Tickets List -->
+  <!-- Ticket List -->
   <div class="card">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
-      <h2 style="margin:0;">All Tickets</h2>
-      <button class="btn btn-primary" onclick="loadTickets()" style="padding:7px 14px;font-size:13px;">↻ Refresh</button>
+    <div class="tickets-header">
+      <h2>All tickets</h2>
+      <span id="count">0 tickets</span>
     </div>
-    <div id="tickets-list"><div class="loading">Loading tickets...</div></div>
+    <div id="ticket-list">
+      <div class="empty">📭 No tickets yet. Submit one above.</div>
+    </div>
   </div>
-
 </div>
 
+<div id="toast">Ticket submitted!</div>
+
 <script>
-  // ── Lemma SDK bootstrap ──────────────────────────────────────────────
-  // The host page injects window.__LEMMA_CONFIG__ with podId + token
-  // when the app is served from lemma.work. For local testing, fill in below.
-  const cfg = window.__LEMMA_CONFIG__ || {};
-  const POD_ID = cfg.podId || '';
-  const TOKEN  = cfg.token  || '';
+const tickets = [];
+let nextId = 1;
 
-  let client = null;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.style.display = 'block';
+  setTimeout(() => t.style.display = 'none', 2500);
+}
 
-  async function getClient() {
-    if (client) return client;
-    const { LemmaClient } = window.LemmaSDK || {};
-    if (!LemmaClient) { alert('Lemma SDK not loaded'); return null; }
-    client = new LemmaClient({ podId: POD_ID, token: TOKEN });
-    await client.initialize();
-    return client;
+function esc(s) {
+  return String(s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
+function renderTickets() {
+  const list = document.getElementById('ticket-list');
+  const count = document.getElementById('count');
+  count.textContent = tickets.length + ' ticket' + (tickets.length !== 1 ? 's' : '');
+
+  if (!tickets.length) {
+    list.innerHTML = '<div class="empty">📭 No tickets yet. Submit one above.</div>';
+    return;
   }
 
-  // ── Submit ticket to the tickets table ───────────────────────────────
-  async function submitTicket() {
-    const subject = document.getElementById('subject').value.trim();
-    const body    = document.getElementById('body').value.trim();
-    if (!subject || !body) { alert('Please fill in both subject and body.'); return; }
-
-    const resultEl = document.getElementById('submit-result');
-    resultEl.innerHTML = '<span style="color:#888">Saving ticket...</span>';
-
-    try {
-      const c = await getClient();
-      await c.records.create('tickets', { subject, body, status: 'new' });
-      resultEl.innerHTML = '<span style="color:#16a34a">✅ Ticket saved!</span>';
-      document.getElementById('subject').value = '';
-      document.getElementById('body').value   = '';
-      setTimeout(loadTickets, 800);
-    } catch (e) {
-      resultEl.innerHTML = `<span style="color:#dc2626">Error: ${e.message}</span>`;
-    }
-  }
-
-  // ── Run the triage workflow ───────────────────────────────────────────
-  async function runTriage() {
-    const subject = document.getElementById('subject').value.trim();
-    const body    = document.getElementById('body').value.trim();
-    if (!subject || !body) { alert('Fill in subject and body first.'); return; }
-
-    const resultEl = document.getElementById('submit-result');
-    resultEl.innerHTML = '<span style="color:#7c3aed">⚡ Running AI triage workflow...</span>';
-
-    try {
-      const c = await getClient();
-      const run = await c.workflows.start('triage-flow', { subject, body });
-      resultEl.innerHTML = `<div class="workflow-result">✅ Workflow started! Run ID: <strong>${run.id}</strong><br>The AI agent is classifying this ticket now.</div>`;
-      setTimeout(loadTickets, 2000);
-    } catch (e) {
-      resultEl.innerHTML = `<span style="color:#dc2626">Error: ${e.message}</span>`;
-    }
-  }
-
-  // ── Load and render tickets ───────────────────────────────────────────
-  async function loadTickets() {
-    const el = document.getElementById('tickets-list');
-    el.innerHTML = '<div class="loading">Loading...</div>';
-    try {
-      const c = await getClient();
-      const res = await c.records.list('tickets', { limit: 50 });
-      const tickets = res.items || res.records || res || [];
-      if (!tickets.length) {
-        el.innerHTML = '<div class="empty">No tickets yet. Submit one above!</div>';
-        return;
-      }
-      el.innerHTML = tickets.map(t => renderTicket(t)).join('');
-    } catch (e) {
-      el.innerHTML = `<div class="empty" style="color:#dc2626">Error loading tickets: ${e.message}</div>`;
-    }
-  }
-
-  function renderTicket(t) {
-    const categoryBadge = t.category
-      ? `<span class="badge badge-${t.category}">${t.category}</span>` : '';
-    const priorityBadge = t.priority
-      ? `<span class="badge badge-${t.priority}">${t.priority}</span>` : '';
-    const statusBadge = t.status
-      ? `<span class="badge badge-${t.status}">${t.status}</span>` : '';
-
-    const draftSection = t.draft_reply ? `
-      <div class="draft-reply">
-        <div class="draft-label">📝 AI Draft Reply</div>
-        ${escHtml(t.draft_reply)}
-      </div>` : '';
-
-    const actions = t.status !== 'approved' ? `
-      <div class="ticket-actions">
-        <button class="btn btn-success" onclick="approveTicket('${t.id}')">✓ Approve Reply</button>
-        <button class="btn btn-danger" onclick="deleteTicket('${t.id}')">✕ Delete</button>
-      </div>` : `<div style="color:#16a34a;font-size:13px;font-weight:600;">✅ Approved</div>`;
+  list.innerHTML = tickets.slice().reverse().map(tk => {
+    const badgeClass =
+      tk.priority === 'Urgent' ? 'badge-urgent' :
+      tk.priority === 'Normal' ? 'badge-normal' :
+      tk.priority === 'Low'    ? 'badge-low'    : 'badge-open';
 
     return `
-      <div class="ticket" id="ticket-${t.id}">
+      <div class="ticket">
         <div class="ticket-header">
-          <div class="ticket-subject">${escHtml(t.subject || 'No subject')}</div>
-          <div class="badges">${categoryBadge}${priorityBadge}${statusBadge}</div>
+          <span class="ticket-subject">${esc(tk.subject)}</span>
+          <span class="badge ${badgeClass}">${esc(tk.priority)}</span>
         </div>
-        <div class="ticket-body">${escHtml(t.body || '')}</div>
-        ${draftSection}
-        ${actions}
-      </div>`;
+        <div class="ticket-meta">#${String(tk.id).padStart(4,'0')} &middot; ${esc(tk.time)}</div>
+        <div class="ticket-desc">${esc(tk.desc)}</div>
+        ${tk.triaging ? `<div class="triage-box loading">🔄 Analyzing with AI…</div>` : ''}
+        ${tk.triage   ? `<div class="triage-box">🤖 <strong>AI triage:</strong> ${esc(tk.triage)}</div>` : ''}
+      </div>
+    `;
+  }).join('');
+}
+
+async function submitTicket(runAI) {
+  const subj = document.getElementById('subj').value.trim();
+  const desc = document.getElementById('desc').value.trim();
+  if (!subj) { alert('Please enter a subject.'); return; }
+
+  const tk = {
+    id: nextId++,
+    subject: subj,
+    desc: desc || '(no description)',
+    time: new Date().toLocaleString([], { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' }),
+    priority: 'Open',
+    triage: null,
+    triaging: runAI
+  };
+
+  tickets.push(tk);
+  document.getElementById('subj').value = '';
+  document.getElementById('desc').value = '';
+  showToast('Ticket submitted!');
+  renderTickets();
+
+  if (!runAI) return;
+
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        model: 'claude-sonnet-4-6',
+        max_tokens: 1000,
+        system: `You are a support triage assistant. Given a ticket subject and description, respond ONLY with a valid JSON object (no markdown fences, no extra text) with exactly these fields:
+{
+  "priority": "Urgent" | "Normal" | "Low",
+  "summary": "one sentence describing the issue",
+  "suggested_action": "brief next step for the support team"
+}`,
+        messages: [{
+          role: 'user',
+          content: `Subject: ${subj}\nDescription: ${desc || '(none)'}`
+        }]
+      })
+    });
+
+    const data = await res.json();
+    const text = (data.content || []).map(c => c.text || '').join('');
+    const clean = text.replace(/```json|```/g, '').trim();
+    const parsed = JSON.parse(clean);
+
+    tk.priority = parsed.priority || 'Normal';
+    tk.triage = `${parsed.summary} → ${parsed.suggested_action}`;
+  } catch (e) {
+    tk.triage = 'AI triage unavailable. Please review manually.';
+    tk.priority = 'Open';
   }
 
-  async function approveTicket(id) {
-    try {
-      const c = await getClient();
-      await c.records.update('tickets', id, { status: 'approved' });
-      loadTickets();
-    } catch (e) { alert('Error: ' + e.message); }
-  }
+  tk.triaging = false;
+  renderTickets();
+}
 
-  async function deleteTicket(id) {
-    if (!confirm('Delete this ticket?')) return;
-    try {
-      const c = await getClient();
-      await c.records.delete('tickets', id);
-      loadTickets();
-    } catch (e) { alert('Error: ' + e.message); }
-  }
-
-  function escHtml(s) {
-    return String(s)
-      .replace(/&/g,'&amp;').replace(/</g,'&lt;')
-      .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-  }
-
-  // Load on start — wait for SDK to be ready
-  window.addEventListener('load', () => {
-    setTimeout(loadTickets, 500);
-  });
+renderTickets();
 </script>
 </body>
 </html>

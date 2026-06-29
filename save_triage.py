@@ -1,19 +1,25 @@
-from lemma_sdk import Pod
 import json
+import requests
 
-def run(input_data, context=None):
-    pod = Pod.from_env()
+def save_triage_result(context, inputs):
+    pod_id = "019f1312-d04e-775d-8107-55b24da41e02"
+    api_url = f"https://lemma.work{pod_id}/datastore/tables/tickets/records"
     
-    record_id = input_data.get("record_id")
-    category = input_data.get("category")
-    priority = input_data.get("priority")
-    draft_reply = input_data.get("draft_reply")
+    headers = {
+        "Authorization": f"Bearer {context.token}",
+        "Content-Type": "application/json"
+    }
     
-    pod.records.update("tickets", record_id, {
-        "category": category,
-        "priority": priority,
-        "draft_reply": draft_reply,
-        "status": "draft_ready"
-    })
+    payload = {
+        "data": {
+            "subject": inputs.get("subject"),
+            "body": inputs.get("body"),
+            "category": inputs.get("category", "general"),
+            "priority": inputs.get("priority", "medium"),
+            "draft_reply": inputs.get("draft_reply", ""),
+            "status": "triage_complete"
+        }
+    }
     
-    return {"success": True, "record_id": record_id}
+    response = requests.post(api_url, headers=headers, json=payload)
+    return {"status": response.status_code, "response": response.text}

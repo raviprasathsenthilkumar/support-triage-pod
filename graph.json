@@ -10,7 +10,7 @@
           "type": "object",
           "properties": {
             "subject": {"type": "string"},
-            "body": {"type": "string"}
+            "body":    {"type": "string"}
           },
           "required": ["subject", "body"]
         }
@@ -24,7 +24,7 @@
         "agent_name": "triage-agent",
         "input_mapping": {
           "subject": {"type": "expression", "value": "intake.subject"},
-          "body": {"type": "expression", "value": "intake.body"}
+          "body":    {"type": "expression", "value": "intake.body"}
         }
       }
     },
@@ -35,10 +35,10 @@
       "config": {
         "function_name": "save_triage_result",
         "input_mapping": {
-          "record_id": {"type": "expression", "value": "intake.id"},
-          "category": {"type": "expression", "value": "triage.category"},
-          "priority": {"type": "expression", "value": "triage.priority"},
-          "draft_reply": {"type": "expression", "value": "triage.draft_reply"}
+          "record_id":  {"type": "expression", "value": "intake.id"},
+          "category":   {"type": "expression", "value": "triage.category"},
+          "priority":   {"type": "expression", "value": "triage.priority"},
+          "draft_reply":{"type": "expression", "value": "triage.draft_reply"}
         }
       }
     },
@@ -49,8 +49,8 @@
     }
   ],
   "edges": [
-    {"id": "e1", "source": "intake", "target": "triage"},
-    {"id": "e2", "source": "triage", "target": "save"},
-    {"id": "e3", "source": "save", "target": "end"}
+    {"id": "e1", "source": "intake",  "target": "triage"},
+    {"id": "e2", "source": "triage",  "target": "save"},
+    {"id": "e3", "source": "save",    "target": "end"}
   ]
 }
