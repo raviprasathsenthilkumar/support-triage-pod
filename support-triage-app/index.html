@@ -286,8 +286,10 @@
       .replace(/>/g,'&gt;').replace(/"/g,'&quot;');
   }
 
-  // Load on start
-  loadTickets();
+  // Load on start — wait for SDK to be ready
+  window.addEventListener('load', () => {
+    setTimeout(loadTickets, 500);
+  });
 </script>
 </body>
 </html>
