@@ -1,0 +1,18 @@
+# Support Triage Pod - Requirements
+
+## Python Dependencies (for Lemma functions)
+pydantic>=2.0.0
+requests>=2.28.0
+lemma-sdk
+
+## CLI Tools
+lemma-cli
+
+## Runtime
+Python 3.9+
+
+## Lemma Platform
+- Lemma account at https://lemma.work
+- Pod with datastore table: tickets
+- Columns: subject, body, category, priority, draft_reply, status
+- Functions deployed: save_triage_result, get_token
